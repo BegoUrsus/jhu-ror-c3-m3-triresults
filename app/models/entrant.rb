@@ -5,6 +5,7 @@ class Entrant
 	store_in collection: "results"
 
 	embeds_many :results, class_name: "LegResult", order: [:"event.o".asc], after_add: :update_total
+	embeds_one :race, class_name: "RaceRef"
 
   field :bib, type: Integer
   field :secs, type: Float
@@ -18,6 +19,10 @@ class Entrant
 		self.secs = results.reduce(0) do |total, result|
   		total + result.secs.to_i
   	end
+  end
+
+  def the_race
+  	self.race.race
   end
 
 end
