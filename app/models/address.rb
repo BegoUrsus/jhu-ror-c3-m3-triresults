@@ -1,7 +1,7 @@
 class Address
 	attr_accessor :city, :state, :location
 
-	def initialize(city, state, loc)
+	def initialize(city=nil, state=nil, loc=nil)
 		@city = city
 		@state = state
 		if loc.nil?
