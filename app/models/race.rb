@@ -103,4 +103,20 @@ class Race
 
 	end
 
+	# returns complete Race instances being held on or after today that are 
+	# not in a list of race_ids for the racer
+	def self.upcoming_available_to racer
+		# returns an array of upcoming race_ids for the racer
+		#upcoming_race_ids = racer.races.upcoming.pluck(:race).map { |r| r[:id] }
+
+		# returns race information for races that match a set of IDs
+		#set_race_info = Race.in(:id=>upcoming_race_ids).pluck(:name, :date)
+
+		# returns races on or after today no matter who is registered for them
+		#upcoming_races = Race.upcoming.where(:name=>{:$regex=>"A2"}).pluck(:name,:date)
+
+		upcoming_race_ids = racer.races.upcoming.pluck(:race).map { |r| r[:_id] }
+    self.upcoming.not_in(:id => upcoming_race_ids)
+	end
+
 end

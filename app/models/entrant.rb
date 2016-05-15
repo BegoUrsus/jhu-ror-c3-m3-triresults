@@ -24,6 +24,9 @@ class Entrant
 	delegate :name, :name=, to: :race, prefix: "race"
 	delegate :date, :date=, to: :race, prefix: "race"
 
+	scope :upcoming, -> { where(:'race.date'.gte => Date.current) }
+	scope :past, -> { where( :'race.date'.lt => Date.current) }
+
   # Realtionship callback
   # Set the value of Entrant.sec based on the sum of event.secs
   def update_total(result)
