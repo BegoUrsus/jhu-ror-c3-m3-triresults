@@ -1,5 +1,5 @@
 class Entrant
-  include Mongoid::Document
+	include Mongoid::Document
 	include Mongoid::Timestamps
 
 	store_in collection: "results"
@@ -8,13 +8,13 @@ class Entrant
 	embeds_one :race, class_name: "RaceRef", autobuild: true
 	embeds_one :racer, class_name: "RacerInfo", as: :parent, autobuild: true
 
-  field :bib, type: Integer
-  field :secs, type: Float
-  field :o, as: :overall, type: Placing
-  field :gender,  type: Placing
-  field :group, type: Placing
+	field :bib, type: Integer
+	field :secs, type: Float
+	field :o, as: :overall, type: Placing
+	field :gender,  type: Placing
+	field :group, type: Placing
 
-  delegate :first_name, :first_name=, to: :racer
+	delegate :first_name, :first_name=, to: :racer
 	delegate :last_name, :last_name=, to: :racer
 	delegate :gender, :gender=, to: :racer, prefix: "racer"
 	delegate :birth_year, :birth_year=, to: :racer
@@ -30,7 +30,7 @@ class Entrant
   # Realtionship callback
   # Set the value of Entrant.sec based on the sum of event.secs
   def update_total(result)
-		self.secs = results.reduce(0) do |total, result|
+  	self.secs = results.reduce(0) do |total, result|
   		total + result.secs.to_i
   	end
   end
@@ -40,31 +40,31 @@ class Entrant
   end
 
   def overall_place
-		overall.place if overall
-	end
-	
-	def gender_place
-		gender.place if gender
-	end
-	
-	def group_name
-		group.name if group
-	end
-	
-	def group_place
-		group.place if group
-	end
+  	overall.place if overall
+  end
+  
+  def gender_place
+  	gender.place if gender
+  end
+  
+  def group_name
+  	group.name if group
+  end
+  
+  def group_place
+  	group.place if group
+  end
 
 
-	RESULTS = {
-		"swim" => SwimResult,
-		"t1"   => LegResult,
-		"bike" => BikeResult,
-		"t2"   => LegResult,
-		"run"  => RunResult
-	}
+  RESULTS = {
+  	"swim" => SwimResult,
+  	"t1"   => LegResult,
+  	"bike" => BikeResult,
+  	"t2"   => LegResult,
+  	"run"  => RunResult
+  }
 
-	RESULTS.keys.each do |name|
+  RESULTS.keys.each do |name|
 		#create_or_find result
 		define_method("#{name}") do
 			result=results.select {|result| name==result.event.name if result.event}.first

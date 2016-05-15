@@ -91,16 +91,16 @@ class Race
 		entrant.racer = racer.info.attributes
 		entrant.group = self.get_group(racer)
 		events.each do |event|
-      if event
-        entrant.send("#{event.name}=", event)
-      end
-    end
-		if (entrant.validate) 
+    	  	if event
+        		entrant.send("#{event.name}=", event)
+      		end
+    	end
+    	entrant.validate
+		if (entrant.valid?) 
 			entrant.bib = next_bib
 			entrant.save
 		end
 		return entrant
-
 	end
 
 	# returns complete Race instances being held on or after today that are 
