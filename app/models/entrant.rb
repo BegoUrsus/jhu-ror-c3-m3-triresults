@@ -1,0 +1,23 @@
+class Entrant
+  include Mongoid::Document
+	include Mongoid::Timestamps
+
+	store_in collection: "results"
+
+	embeds_many :results, class_name: "LegResult", order: [:"event.o".asc], after_add: :update_total
+
+  field :bib, type: Integer
+  field :secs, type: Float
+  field :o, as: :overall, type: Placing
+  field :gender,  type: Placing
+  field :group, type: Placing
+
+  # Realtionship callback
+  # Set the value of Entrant.sec based on the sum of event.secs
+  def update_total(result)
+		self.secs = results.reduce(0) do |total, result|
+  		total + result.secs.to_i
+  	end
+  end
+
+end
